@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Todo.ProgramadorCamisa10.Converters"
+             x:Class="Todo.ProgramadorCamisa10.App.Views.PaginaInicial"
+             Title="PaginaInicial">
+    
+    <ContentPage.Resources>
+        
+       <!--este tem uma key-indetificador - então será aplicado de forma especifica-->
+        <Style x:Key="StyleButton" TargetType="Button">
+       <!--font especifica que eu implantei no MauiProgram e tirei do google.fonts-->     
+            <Setter Property="FontFamily" Value="OswaldBold" />
+            <Setter Property="BackgroundColor" Value="{OnPlatform Android='Green', Default='DodgerBlue', WinUI='Purple'}" />
+            <!--Coloquei valor para Telefone, Computador-Desktop, E se não for nenhum nem outro entro com o padrão-Default-->
+            <!--<Setter Property="WidthRequest" Value="{OnIdiom Phone='200', Desktop='400', Default='300'}" />-->
+        </Style>
+        <!--neste momento nós passamos o identificador como classe-->
+        <Style Class="PrimaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource Gray900}" />
+        </Style>
+        <converters:DataConclusaoConverter x:Key="DataConclusaoConverter" />
+    </ContentPage.Resources>
+    
+    <!---70 fica no primeiro item fixo da coleção-->
+    <!-- * astericos pega a segunda coleção -->
+    <Grid Padding="10" RowDefinitions="Auto, 70,*">
+        <!--Switch relacionado ao tema-->
+        <Switch
+           OnColor="Green"
+            ThumbColor="FloralWhite"
+            Toggled="Switch_Toggled" />
+        <StackLayout Grid.Row="1">
+            <Entry
+                 x:Name="pesquisaEntry"
+                 Placeholder="Pesquisar tarefa..."
+                 TextChanged="PesquisaEntry_TextChanged" />
+            <!--Como se fosse um Toweidatabinding-->
+            <Label Text="{Binding Source={x:Reference pesquisaEntry}, Path=Text}" />
+        </StackLayout>
+        <CollectionView
+            x:Name="TarefasCollectionView"
+            Grid.Row="2"
+            EmptyView="Não existem tarefas cadastradas">
+            <!--Se a coleção estiver vazia ele mostrará este texto-->
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!--Aqui temos uma oranização dos dados-->
+                    <VerticalStackLayout Padding="10">
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding Concluida}" />
+                            <StackLayout>
+                                <!--Este Binding esta vindo da (model as propriedades)-->
+                                <!---Binding ele vai procurar se exite alguma propriedade com aquele nome e pegar o conteudo interno ou seja o valor-->
+                                <!--font especifica que eu implantei no MauiProgram e tirei do google.fonts-->
+                                <Label FontFamily="OswaldBold" Text="{Binding Nome}"  />
+                                <Label FontFamily="OswaldLight" Text="{Binding Descricao}" />
+                                <Label FontFamily="OswaldLight" Text="{Binding DataConclusao, Converter={StaticResource DataConclusaoConverter}}" />
+                            </StackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button
+            Grid.Row="2"
+            Clicked="AdicionarTarefa_ButtonClicked"
+            HorizontalOptions="Center"
+            Style="{StaticResource StyleButton}"          
+            Text="+ Adicionar Tarefas"
+            VerticalOptions="End" />
+        <!--Podemos pegar o recurso css a nivel de pagfina ou a nivel de aplicação-->
+        <!--Exemplo nivel de aplicação => TextColor="{StaticResource White}"-->
+        <!--Podemos tambem definir a plataforma o (texto ou a cor) com OnPlatform Android-->
+        
+        <!--exemplo para fins didaticoa-->
+        <!--Text="{OnIdiom Phone='+ Adicionar Tarefa',
+               Desktop='+ Cadastrar Tarefa'}"-->
+    </Grid>
+</ContentPage>

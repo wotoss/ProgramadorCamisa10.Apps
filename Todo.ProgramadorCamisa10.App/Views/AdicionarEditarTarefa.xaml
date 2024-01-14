@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Todo.ProgramadorCamisa10.Views.AdicionarEditarTarefa"
+             Title="AdicionarEditarTarefa">
+    <ContentPage.Resources>
+        <!--stylos por páginas => ContentPage.Resources-->
+        <Style x:Key="lblTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="Title" />
+            <Setter Property="FontAttributes" Value="Bold" /> 
+        </Style>
+        <Style x:Key="BtnFechar" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+    </ContentPage.Resources>
+    
+    <FlexLayout
+        Margin="10" Direction="Column" JustifyContent="SpaceBetween">
+        <Grid>
+            <Label 
+                HorizontalOptions="Center"
+                Style="{StaticResource lblTitle}"
+                Text="Adicionar / Editar Tarefa"
+                VerticalOptions="Center"  />
+            <Button
+                Clicked="BtnFechar_Clicked"
+                HorizontalOptions="End"
+                Text="X"
+                Style="{StaticResource BtnFechar}"
+                VerticalOptions="Center" />
+        </Grid>
+        <StackLayout>
+            <Label Text="Nome tarefa" />
+            <Border StrokeShape="RoundRectangle 10">
+              <Entry
+                  x:Name="nomeTarefaEntry"
+                  Placeholder="Digite o titulo da tarefa..."  PlaceholderColor="Blue" />
+            </Border>
+        </StackLayout>
+
+        <StackLayout>
+            <Label Text="Descrição" />
+            <Border HeightRequest="300" StrokeShape="RoundRectangle 10">
+                <Editor
+                    x:Name="descricaoTarefaEditor"
+                    IsSpellCheckEnabled="True"
+                    IsTextPredictionEnabled="true"
+                    Placeholder="Digite a descrição da tarefa..." PlaceholderColor="Blue" />
+            </Border>
+        </StackLayout>
+
+        <StackLayout>
+            <Label Text="Data de conclusão" />
+            <Border StrokeShape="RoundRectangle 10">
+                <DatePicker x:Name="dataTarefaDatePicker" />
+            </Border>
+        </StackLayout>
+
+        <Button
+            Clicked="BtnSalvar_Clicked"
+            HorizontalOptions="Center"
+            Text="Salvar"          
+            VerticalOptions="End" />
+    </FlexLayout>
+</ContentPage>
