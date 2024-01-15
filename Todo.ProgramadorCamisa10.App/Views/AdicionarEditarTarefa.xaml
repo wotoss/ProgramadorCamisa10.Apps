@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+<ContentPage
              x:Class="Todo.ProgramadorCamisa10.Views.AdicionarEditarTarefa"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="AdicionarEditarTarefa">
     <ContentPage.Resources>
         <!--stylos por páginas => ContentPage.Resources-->
@@ -16,20 +17,24 @@
     </ContentPage.Resources>
     
     <FlexLayout
-        Margin="10" Direction="Column" JustifyContent="SpaceBetween">
-        <Grid>
+        Margin="20" 
+        Direction="Column" 
+        JustifyContent="SpaceBetween">
+        <StackLayout Orientation="Horizontal">
             <Label 
                 HorizontalOptions="Center"
                 Style="{StaticResource lblTitle}"
                 Text="Adicionar / Editar Tarefa"
-                VerticalOptions="Center"  />
+                VerticalOptions="Center" 
+                WidthRequest="280" />
+            
             <Button
                 Clicked="BtnFechar_Clicked"
-                HorizontalOptions="End"
-                Text="X"
+                HorizontalOptions="Center"
                 Style="{StaticResource BtnFechar}"
+                Text="X"               
                 VerticalOptions="Center" />
-        </Grid>
+        </StackLayout>
         <StackLayout>
             <Label Text="Nome tarefa" />
             <Border StrokeShape="RoundRectangle 10">

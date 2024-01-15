@@ -24,7 +24,7 @@
     
     <!---70 fica no primeiro item fixo da coleção-->
     <!-- * astericos pega a segunda coleção -->
-    <Grid Padding="10" RowDefinitions="Auto, 70,*">
+    <Grid Padding="20" RowDefinitions="Auto,70,*">
         <!--Switch relacionado ao tema-->
         <Switch
            OnColor="Green"
@@ -32,11 +32,10 @@
             Toggled="Switch_Toggled" />
         <StackLayout Grid.Row="1">
             <Entry
-                 x:Name="pesquisaEntry"
+                 Keyboard="Email"
                  Placeholder="Pesquisar tarefa..."
                  TextChanged="PesquisaEntry_TextChanged" />
-            <!--Como se fosse um Toweidatabinding-->
-            <Label Text="{Binding Source={x:Reference pesquisaEntry}, Path=Text}" />
+            
         </StackLayout>
         <CollectionView
             x:Name="TarefasCollectionView"
@@ -47,6 +46,12 @@
                 <DataTemplate>
                     <!--Aqui temos uma oranização dos dados-->
                     <VerticalStackLayout Padding="10">
+                        <!--trabalhar com tapede toque em tela - ao tocar a tarefa temos uma ação-->
+                        <!--Detalhe vou passar objeto-completo pelo parameter através do (. ponto)-->
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="AoTocarTarefaIrParaEditar" CommandParameter="{Binding . }" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        
                         <HorizontalStackLayout>
                             <CheckBox IsChecked="{Binding Concluida}" />
                             <StackLayout>
@@ -65,10 +70,11 @@
         <Button
             Grid.Row="2"
             Clicked="AdicionarTarefa_ButtonClicked"
-            HorizontalOptions="Center"
-            Style="{StaticResource StyleButton}"          
+            HorizontalOptions="Center"        
             Text="+ Adicionar Tarefas"
             VerticalOptions="End" />
+        
+        <!--Lembrando que os buttons herdam configurações e APPStyles-->
         <!--Podemos pegar o recurso css a nivel de pagfina ou a nivel de aplicação-->
         <!--Exemplo nivel de aplicação => TextColor="{StaticResource White}"-->
         <!--Podemos tambem definir a plataforma o (texto ou a cor) com OnPlatform Android-->
