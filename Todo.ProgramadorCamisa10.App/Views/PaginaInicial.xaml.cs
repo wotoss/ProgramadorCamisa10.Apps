@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.Messaging;
-using Javax.Security.Auth;
 using System.Collections.ObjectModel;
 using Todo.ProgramadorCamisa10.Core.Model;
 using Todo.ProgramadorCamisa10.Data.DAO;
 using Todo.ProgramadorCamisa10.Messages;
+using Todo.ProgramadorCamisa10.Storages;
 using Todo.ProgramadorCamisa10.Views;
 
 namespace Todo.ProgramadorCamisa10.App.Views;
@@ -20,9 +20,18 @@ public partial class PaginaInicial : ContentPage
     private ObservableCollection<Tarefa> _tarefasObservada;
 	public PaginaInicial()
 	{
+        //inicio a aplicação
 		InitializeComponent();
+        //aqui loga na entrada do app-que estão aramazenadas eu tenho as listas salvas
+        var tarefasSalvar = TarefaPreferencesStorage.Lista();
 
         _tarefasDAO = new TarefaDAO();
+
+        //se tiver alguma tarefa eu vou adicionar dentro do meu storage
+        if (tarefasSalvar.Any())
+        {
+            _tarefasDAO.Adicionar(tarefasSalvar);
+        }
 
         _tarefasObservada = new ObservableCollection<Tarefa>(_tarefasDAO.Lista());
 
@@ -31,6 +40,7 @@ public partial class PaginaInicial : ContentPage
         WeakReferenceMessenger.Default.Register<NovaTarefaMessage>(this, (x, y) =>
         {
             _tarefasObservada.Add(y.Value);
+            TarefaPreferencesStorage.Salvar(y.Value);
         });
 
         WeakReferenceMessenger.Default.Register<EditarTarefaMessage>(this, (x, y) =>
@@ -45,6 +55,8 @@ public partial class PaginaInicial : ContentPage
             TarefasCollectionView.ItemsSource = null;
 
             TarefasCollectionView.ItemsSource = _tarefasObservada;
+
+            TarefaPreferencesStorage.Atualizar(y.Value);
         });
     }
 
@@ -132,5 +144,26 @@ public partial class PaginaInicial : ContentPage
 
         await Navigation.PushModalAsync(modal);
         
+    }
+
+    #region exemplo Deletar funcionando mas não usaremos 
+    //private void DeletarTarefaLeftSwiped(object sender, SwipedEventArgs e)
+    //{
+    //    //tarefa recebe parameter (objeto-completo) porque lá no front eu estou enviando o conteudo-completo através do (.)
+    //    var tarefa = (Tarefa)e.Parameter;
+    //    _tarefasObservada.Remove(tarefa);
+    //}
+    #endregion
+
+    private void DeletarTarefaSwipeInvoke(object sender, EventArgs e)
+    {
+        //aqui vou implemetar via sender 
+        var swipeItem = (SwipeItem)sender;
+        //esta é mais uma forma de pegar (.) (conteudo/objeto-completo)
+        var tarefa = (Tarefa)swipeItem.CommandParameter;
+
+        _tarefasObservada.Remove(tarefa);
+
+        TarefaPreferencesStorage.Excluir(tarefa);
     }
 }

@@ -45,25 +45,48 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <!--Aqui temos uma oranização dos dados-->
-                    <VerticalStackLayout Padding="10">
-                        <!--trabalhar com tapede toque em tela - ao tocar a tarefa temos uma ação-->
-                        <!--Detalhe vou passar objeto-completo pelo parameter através do (. ponto)-->
-                        <VerticalStackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="AoTocarTarefaIrParaEditar" CommandParameter="{Binding . }" />
-                        </VerticalStackLayout.GestureRecognizers>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <!--observarção: estou passando a imgem para extensão png - porque sei que ele fará a conversão-->
+                                <!--lembrando que a imagem esta como (trash.svg) lá dentro da pasta imagem-->
+                                <SwipeItem
+                                    BackgroundColor="red"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="trash.png"
+                                    Invoked="DeletarTarefaSwipeInvoke" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
                         
-                        <HorizontalStackLayout>
-                            <CheckBox IsChecked="{Binding Concluida}" />
-                            <StackLayout>
-                                <!--Este Binding esta vindo da (model as propriedades)-->
-                                <!---Binding ele vai procurar se exite alguma propriedade com aquele nome e pegar o conteudo interno ou seja o valor-->
-                                <!--font especifica que eu implantei no MauiProgram e tirei do google.fonts-->
-                                <Label FontFamily="OswaldBold" Text="{Binding Nome}"  />
-                                <Label FontFamily="OswaldLight" Text="{Binding Descricao}" />
-                                <Label FontFamily="OswaldLight" Text="{Binding DataConclusao, Converter={StaticResource DataConclusaoConverter}}" />
-                            </StackLayout>
-                        </HorizontalStackLayout>
-                    </VerticalStackLayout>
+                        <!--border para delimitar os elementos que estou usando-->
+                        <Border
+                            Margin="0,10"
+                            BackgroundColor="Transparent"
+                            Stroke="{AppThemeBinding Dark=White,
+                                                     Light=Black}"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1">
+                            <VerticalStackLayout Padding="10">
+                                <!--trabalhar com tapede toque em tela - ao tocar a tarefa temos uma ação-->
+                                <!--Detalhe vou passar objeto-completo pelo parameter através do (. ponto)-->
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AoTocarTarefaIrParaEditar" CommandParameter="{Binding . }" />
+                                </VerticalStackLayout.GestureRecognizers>
+
+                                <HorizontalStackLayout>
+                                    <CheckBox IsChecked="{Binding Concluida}" />
+                                    <StackLayout>
+                                        <!--Este Binding esta vindo da (model as propriedades)-->
+                                        <!---Binding ele vai procurar se exite alguma propriedade com aquele nome e pegar o conteudo interno ou seja o valor-->
+                                        <!--font especifica que eu implantei no MauiProgram e tirei do google.fonts-->
+                                        <Label FontFamily="OswaldBold" Text="{Binding Nome}"  />
+                                        <Label FontFamily="OswaldLight" Text="{Binding Descricao}" />
+                                        <Label FontFamily="OswaldLight" Text="{Binding DataConclusao, Converter={StaticResource DataConclusaoConverter}}" />
+                                    </StackLayout>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>       
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

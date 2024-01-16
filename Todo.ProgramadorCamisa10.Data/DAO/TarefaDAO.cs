@@ -20,6 +20,11 @@ public class TarefaDAO
     {
         _contexto.Tarefas.Add(tarefa);
     }
+    //adicionar já em lista
+    public void Adicionar(List<Tarefa> tarefaList)
+    {
+        _contexto.Tarefas.AddRange(tarefaList);
+    }
 
     public void Atualizar(Tarefa tarefa)
     {
