@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Todo.ProgramadorCamisa10.Data.DAO;
 
 namespace Todo.ProgramadorCamisa10.App
 {
@@ -22,6 +23,11 @@ namespace Todo.ProgramadorCamisa10.App
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+
+            var dao = new TarefaDAO();
+
+            dao.CriarBancoDeDados();
 
             return builder.Build();
         }
